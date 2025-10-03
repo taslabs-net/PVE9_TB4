@@ -1,0 +1,70 @@
+#!/bin/sh
+
+echo "🔍 Running pre-commit checks for TB4 + Ceph Guide..."
+
+# Jekyll validation skipped per user preference
+
+# Check for required files
+echo "📋 Checking required documentation files..."
+required_files=(
+  "index.md"
+  "01-Prerequisites.md"
+  "02A-TB4-Hardware-Detection.md"
+  "02B-TB4-Network-Configuration.md"
+  "02C-TB4-System-Integration.md"
+  "03-SDN-OpenFabric.md"
+  "04-Mesh-Testing.md"
+  "05A-Ceph-Installation.md"
+  "05B-Ceph-Network-Configuration.md"
+  "05C-Ceph-Storage-Setup.md"
+  "06-Performance-Optimization.md"
+  "07-Troubleshooting.md"
+  "_config.yml"
+)
+
+for file in "${required_files[@]}"; do
+  if [ ! -f "$file" ]; then
+    echo "❌ Missing required file: $file"
+    exit 1
+  fi
+done
+echo "✅ All required documentation files present"
+
+# Check for proper front matter in markdown files
+echo "📝 Validating markdown front matter..."
+for file in *.md; do
+  if [ -f "$file" ] && [ "$file" != "README.md" ]; then
+    if ! head -n 10 "$file" | grep -q "^---$"; then
+      echo "❌ Missing front matter in $file"
+      exit 1
+    fi
+  fi
+done
+echo "✅ All markdown files have proper front matter"
+
+# Run basic formatting checks on staged files (excluding node_modules)
+echo "💅 Running formatting checks on staged files..."
+for file in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(md|yml|yaml|js|json)$' | grep -v '^node_modules/'); do
+  if [ -f "$file" ]; then
+    echo "  Checking $file..."
+    npx prettier --check "$file" > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+      echo "❌ Formatting issues found in $file. Run 'npm run format' to fix."
+      exit 1
+    fi
+  fi
+done
+
+# Run markdown linting on staged markdown files (excluding node_modules)
+for file in $(git diff --cached --name-only --diff-filter=ACM | grep '\.md$' | grep -v '^node_modules/'); do
+  if [ -f "$file" ]; then
+    echo "  Linting $file..."
+    npx markdownlint "$file" > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+      echo "❌ Markdown linting issues found in $file. Run 'npm run lint:markdown' to see details."
+      exit 1
+    fi
+  fi
+done
+
+echo "✅ All pre-commit checks passed!"

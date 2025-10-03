@@ -1,0 +1,55 @@
+{
+  "name": "tb4-ceph-guide",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Thunderbolt 4 + Ceph Guide for Proxmox VE 9 - Jekyll Documentation Site",
+  "author": {
+    "name": "Timothy Schneider",
+    "email": "tim@taslabs.net",
+    "url": "https://taslabs.net"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "commit": "cz",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:markdown": "markdownlint '**/*.md' --ignore node_modules",
+    "lint:jekyll": "echo 'Jekyll validation skipped per user preference'",
+    "test:site": "bundle exec jekyll serve --detach && sleep 5 && curl -f http://localhost:4000 > /dev/null && pkill -f jekyll",
+    "validate": "npm run format:check && npm run lint:markdown && npm run lint:jekyll"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "commitizen": "latest",
+    "cz-conventional-changelog": "latest",
+    "husky": "latest",
+    "lint-staged": "latest",
+    "prettier": "latest",
+    "markdownlint-cli": "latest"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.md": [
+      "prettier --write",
+      "markdownlint --fix"
+    ],
+    "*.{yml,yaml}": [
+      "prettier --write"
+    ],
+    "*.{html,css,js}": [
+      "prettier --write"
+    ],
+    "package.json": [
+      "prettier --write"
+    ],
+    "commitlint.config.js": [
+      "prettier --write"
+    ]
+  }
+}

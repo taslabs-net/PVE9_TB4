@@ -1,0 +1,92 @@
+# Site settings
+title: "TB4 + Ceph Guide"
+description: "Step-by-step, tested setup for building a high-performance Thunderbolt 4 + Ceph cluster on Proxmox VE 9"
+baseurl: ""
+url: "https://tb4.git.taslabs.net"
+
+# Navigation title (overrides theme default)
+nav_title: "TB4 + Ceph Guide"
+
+# Author information
+author:
+  name: "Timothy Schneider"
+  email: "tim@taslabs.net"
+  url: "https://taslabs.net"
+
+# Build settings
+remote_theme: just-the-docs/just-the-docs
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-remote-theme
+
+# Just the Docs theme settings
+color_scheme: dark
+search_enabled: true
+heading_anchors: true
+
+# Enable copy code button
+enable_copy_code_button: true
+
+# Back to top link
+back_to_top: true
+back_to_top_text: "Back to top"
+
+# Footer content
+footer_content: "Copyright &copy; 2025 Timothy Schneider. This guide builds upon work by @scyto."
+
+# Disable "powered by" footer and theme attribution
+gh_edit_link: false
+last_edit_timestamp: false
+last_edit_time_format: ""
+gh_edit_link_text: ""
+gh_edit_repository: ""
+gh_edit_branch: ""
+gh_edit_view_mode: "tree"
+
+# Remove auxiliary footer links
+aux_links: {}
+
+# Disable Just the Docs theme attribution
+just_the_docs:
+  # Disable the "This site uses Just the Docs" message in navigation
+  search_tokenizer_separator: /[\s/]+/
+  # Hide theme attribution
+  hide_theme_attribution: true
+
+# Navigation settings
+nav_sort: order
+
+# Exclude from processing
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+
+# Defaults for all pages
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+      author: "Timothy Schneider"
+      email: "tim@taslabs.net"
+      url: "https://taslabs.net"
+
+# GitHub metadata
+repository: taslabs-net/PVE9_TB4
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
