@@ -161,7 +161,7 @@ done
 ```bash
 for node in 10.11.11.12 10.11.11.13 10.11.11.14; do
   echo "=== TB4 interface status on $node ==="
-  ssh root@$node "ip addr show en05 en06"
+  ssh root@$node 'for i in en05 en06; do ip addr show "$i"; done'
 done
 ```
 
